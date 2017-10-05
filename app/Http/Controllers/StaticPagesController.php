@@ -20,4 +20,8 @@ class StaticPagesController extends Controller
     {
       return view('pages/help');
     }
+    public function test()
+    {
+      return view('layouts.test');
+    }
 }

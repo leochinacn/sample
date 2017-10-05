@@ -42,4 +42,26 @@ class UsersController extends Controller
         }
         return redirect()->route('users.show',$user);
     }
+
+    public function edit(User $user)
+    {
+      return view('pages.user.edit',compact('user'));
+    }
+
+    public function update(User $user,Request $request)
+    {
+      $this->validate($request,[
+        'name'=>'required|max:50',
+        'password'=>'required|confirmed|min:6'
+      ]);
+      $data = array();
+      $data['name'] = $request->name;
+      if ($request->password){
+        $data['password'] = bcrypt($request->passwrd);
+      }
+      $user->update($data);
+
+      session()->flash('success', '个人资料更新成功！');
+      return redirect()->route('pages.user.show', $user->id);
+    }
 }
